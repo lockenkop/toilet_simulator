@@ -1,0 +1,89 @@
+[gd_scene load_steps=9 format=3 uid="uid://b5m1d5158k8pq"]
+
+[ext_resource type="Script" uid="uid://by4nk5ok7h2r6" path="res://customer.gd" id="1_r8ta2"]
+[ext_resource type="Texture2D" uid="uid://ba8dxyx2vm235" path="res://icon.svg" id="2_f7asb"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_epypp"]
+bg_color = Color(0.7877592, 0.78775924, 0.787759, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0hol4"]
+bg_color = Color(0.53287417, 0.8976458, 0.38528427, 1)
+
+[sub_resource type="SystemFont" id="SystemFont_q6r6c"]
+subpixel_positioning = 0
+
+[sub_resource type="Theme" id="Theme_co351"]
+default_font = SubResource("SystemFont_q6r6c")
+ProgressBar/styles/background = SubResource("StyleBoxFlat_epypp")
+ProgressBar/styles/fill = SubResource("StyleBoxFlat_0hol4")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_eas7q"]
+size = Vector2(60.441406, 133.64258)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_r8ta2"]
+size = Vector2(39, 129)
+
+[node name="Customer" type="CharacterBody2D" groups=["customers"]]
+z_index = 10
+input_pickable = true
+script = ExtResource("1_r8ta2")
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+anchors_preset = -1
+anchor_left = -0.041844845
+anchor_right = 1.0418448
+anchor_bottom = 0.1796875
+offset_left = -40.0
+offset_top = -92.0
+offset_right = 40.554688
+offset_bottom = -69.0
+grow_horizontal = 2
+theme = SubResource("Theme_co351")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.47265637, 1.0429689)
+texture = ExtResource("2_f7asb")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_eas7q")
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[node name="ToiletLabel" type="Label" parent="."]
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 40.0
+offset_top = 12.5
+offset_right = 80.0
+offset_bottom = 35.5
+grow_vertical = 2
+text = "Toiletbool"
+
+[node name="StateLabel" type="Label" parent="."]
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 40.0
+offset_top = -11.5
+offset_right = 80.0
+offset_bottom = 11.5
+grow_vertical = 2
+text = "State"
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+z_index = 10
+shape = SubResource("RectangleShape2D_r8ta2")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+path_postprocessing = 1
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

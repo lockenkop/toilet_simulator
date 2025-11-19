@@ -1,0 +1,93 @@
+[gd_scene load_steps=8 format=3 uid="uid://xfl6vvde0403"]
+
+[ext_resource type="Script" uid="uid://cw4bilg2r0138" path="res://room.gd" id="1_0xm2m"]
+[ext_resource type="PackedScene" uid="uid://b5m1d5158k8pq" path="res://customer.tscn" id="2_h2yge"]
+[ext_resource type="PackedScene" uid="uid://cecnu1gjbqmkt" path="res://toilet.tscn" id="3_h2yge"]
+[ext_resource type="Script" uid="uid://dilhqlfa2c8t" path="res://money_label.gd" id="4_1bvp3"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_epypp"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_epypp"]
+size = Vector2(1180, 676)
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_h2yge"]
+vertices = PackedVector2Array(631.8906, 850.8672, 631.10156, 773.96875, 1023.9219, 772.96875, 1151.8516, 844.1172, 1147.1406, 516.8828, 1025.0781, 625.78906, 740.1406, 511.8828, 639.8828, 633.78906, 636.1094, 288.04688, 737.85156, 355.9297, 1159.8828, 290.9375, 1159.1094, 358.92188)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(4, 3, 2, 5), PackedInt32Array(6, 4, 5, 7), PackedInt32Array(6, 7, 8, 9), PackedInt32Array(9, 8, 10, 11)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(626, 278, 630, 644, 1015, 636, 1014, 763, 621, 764, 622, 861, 1162, 854, 1157, 507, 750, 502, 748, 366, 1169, 369, 1170, 281)])
+
+[node name="Room" type="Node2D"]
+script = ExtResource("1_0xm2m")
+customer_scene = ExtResource("2_h2yge")
+toilet_scene = ExtResource("3_h2yge")
+
+[node name="PlayableArea" type="Area2D" parent="."]
+
+[node name="Right" type="CollisionShape2D" parent="PlayableArea"]
+position = Vector2(1152, 649)
+rotation = -1.5707964
+shape = SubResource("WorldBoundaryShape2D_epypp")
+
+[node name="Bottom" type="CollisionShape2D" parent="PlayableArea"]
+position = Vector2(0, 649)
+shape = SubResource("WorldBoundaryShape2D_epypp")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayableArea"]
+position = Vector2(580, 328)
+shape = SubResource("RectangleShape2D_epypp")
+
+[node name="ToiletStart" type="Marker2D" parent="."]
+position = Vector2(80, 360)
+
+[node name="QueueStart" type="Marker2D" parent="."]
+position = Vector2(1133, 105)
+
+[node name="QueueEnd" type="Marker2D" parent="."]
+position = Vector2(666, 587)
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 2.0
+offset_top = -222.0
+offset_right = 42.0
+offset_bottom = -182.0
+
+[node name="CustomerTree" type="Tree" parent="Control"]
+layout_mode = 0
+offset_left = 78.0
+offset_top = 582.0
+offset_right = 94.0
+offset_bottom = 599.0
+columns = 3
+
+[node name="SpawnToiletButton" type="Button" parent="Control"]
+layout_mode = 0
+offset_left = 999.0
+offset_top = 272.0
+offset_right = 1139.0
+offset_bottom = 303.0
+text = "Spawn Toilet"
+
+[node name="SpawnCustomerButton" type="Button" parent="Control"]
+layout_mode = 0
+offset_left = 999.0
+offset_top = 236.0
+offset_right = 1139.0
+offset_bottom = 267.0
+text = "Spawn Customer"
+
+[node name="MoneyLabel" type="Label" parent="Control" groups=["money"]]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 240.0
+offset_right = 164.0
+offset_bottom = 263.0
+text = "Money: 0"
+script = ExtResource("4_1bvp3")
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+position = Vector2(2, -222)
+navigation_polygon = SubResource("NavigationPolygon_h2yge")
+
+[connection signal="pressed" from="Control/SpawnToiletButton" to="." method="_on_spawn_toilet_button_pressed"]
+[connection signal="pressed" from="Control/SpawnCustomerButton" to="." method="_on_spawn_customer_button_pressed"]

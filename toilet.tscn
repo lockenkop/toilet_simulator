@@ -1,0 +1,40 @@
+[gd_scene load_steps=4 format=3 uid="uid://cecnu1gjbqmkt"]
+
+[ext_resource type="Script" uid="uid://dx08d8t7ux71u" path="res://toilet.gd" id="1_ckcud"]
+[ext_resource type="Texture2D" uid="uid://dmft88i1hxhqc" path="res://assets/Game Boy Advance - Metal Slug Advance - Backgrounds - Final Mission (Toilet).png" id="2_ayuo3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ckcud"]
+size = Vector2(102, 127)
+
+[node name="Toilet" type="Area2D" groups=["toilets"]]
+script = ExtResource("1_ckcud")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(3.4333339, 4.2303576)
+texture = ExtResource("2_ayuo3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_ckcud")
+
+[node name="Tooltip" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -48.0
+offset_top = -112.0
+offset_right = 45.0
+offset_bottom = -72.0
+
+[node name="QualityLabel" type="Label" parent="Tooltip"]
+layout_mode = 0
+offset_right = 93.0
+offset_bottom = 33.0
+text = "Quality: 1"
+
+[node name="TooltipTimer" type="Timer" parent="Tooltip"]
+wait_time = 0.5
+one_shot = true
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
+[connection signal="timeout" from="Tooltip/TooltipTimer" to="." method="_on_tooltip_timer_timeout"]
